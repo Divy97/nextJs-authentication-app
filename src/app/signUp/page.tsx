@@ -5,17 +5,32 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-export default function LoginPage() {
+export default function SignUpPage() {
   const [user, setUser] = useState({
     email: "",
     password: "",
+    userName: "",
   });
 
-  const onLogin = async () => {};
+  const onSignUp = async () => {};
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1>Login Form</h1>
+      <h1>Signup Form</h1>
+
+      <hr />
+
+      <label htmlFor="username">UserName</label>
+      <input
+        className="p-1 border rounded mb-4"
+        type="text"
+        id="username"
+        placeholder="Enter userName..,"
+        value={user.userName}
+        onChange={(e) => {
+          setUser({ ...user, userName: e.target.value });
+        }}
+      />
 
       <label htmlFor="email">Email</label>
       <input
@@ -28,7 +43,7 @@ export default function LoginPage() {
           setUser({ ...user, email: e.target.value });
         }}
       />
-
+      
       <label htmlFor="password">Password</label>
       <input
         className="p-1 border rounded mb-4"
@@ -42,10 +57,10 @@ export default function LoginPage() {
       />
 
 
-      <button className="p-1 px-5 border rounded my-2" onClick={onLogin}>
-        Login
-      </button>
-      <Link href="/signUp">Don&rsquo;t have an account ? SignUp</Link>
+      <button className="p-1 px-5 border rounded my-2"
+        onClick={onSignUp}
+      >SignUp</button>
+      <Link href='/login'>Already have an account ? Login</Link>
     </div>
   );
 }
