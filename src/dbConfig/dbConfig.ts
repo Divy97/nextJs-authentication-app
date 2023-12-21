@@ -6,7 +6,6 @@ export async function connect() {
       console.log("NO Mongo_URL is given");
       return;
     }
-
     mongoose.connect(process.env.MONGO_URL);
 
     let connection = mongoose.connection;
