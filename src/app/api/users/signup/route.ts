@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     const { username, email, password } = reqBody;
 
     //check if user already exists or not
-    const user = await User.findOne(email);
+    const user = await User.findOne({email});
     if (user) {
       return NextResponse.json({
         status: 400,
@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
     }
 
     //hash password
-
     const salt = await bcryptjs.genSalt(10);
     const hashPassword = await bcryptjs.hash(password, salt);
 
@@ -41,7 +40,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     return NextResponse.json({
-      message: error,
+      message: `something went wrong ${error}`,
       status: 500,
     });
   }
