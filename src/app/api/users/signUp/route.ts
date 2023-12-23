@@ -2,6 +2,7 @@ import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
+import { sendEmail } from "@/helpers/mailer";
 
 connect();
 
@@ -11,7 +12,7 @@ export async function POST(request: NextRequest) {
     const { username, email, password } = reqBody;
 
     //check if user already exists or not
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
     if (user) {
       return NextResponse.json({
         status: 400,
@@ -31,13 +32,21 @@ export async function POST(request: NextRequest) {
 
     const savedUser = await newUser.save();
     console.log(savedUser);
+
+    //send verification email
+
+    await sendEmail({
+      email,
+      emailType: "VERIFY",
+      userId: savedUser._id,
+    });
+
     return NextResponse.json({
       message: "User saved successfully",
       status: 201,
       success: true,
-      savedUser
+      savedUser,
     });
-
   } catch (error) {
     return NextResponse.json({
       message: `something went wrong ${error}`,

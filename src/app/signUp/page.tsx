@@ -10,7 +10,7 @@ export default function SignUpPage() {
   const [user, setUser] = useState({
     email: "",
     password: "",
-    userName: "",
+    username: "",
   });
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -19,10 +19,11 @@ export default function SignUpPage() {
   const onSignUp = async () => {
     try {
       setLoading(true);
-
       const response = await axios.post("/api/users/signUp", user);
       console.log("SignUp response", response);
-      router.push("/login");
+      if (response.data.success === true) {
+        router.push("/login");
+      }
     } catch (error) {
       alert("Something went wrong, Please try again!");
       console.log(error);
@@ -35,7 +36,7 @@ export default function SignUpPage() {
     if (
       user.email.length > 0 &&
       user.password.length > 0 &&
-      user.userName.length > 0
+      user.username.length > 0
     ) {
       setButtonDisabled(false);
     } else {
@@ -49,15 +50,15 @@ export default function SignUpPage() {
 
       <hr />
 
-      <label htmlFor="username">UserName</label>
+      <label htmlFor="username">username</label>
       <input
         className="p-1 border rounded mb-4 text-black"
         type="text"
         id="username"
-        placeholder="Enter userName..,"
-        value={user.userName}
+        placeholder="Enter username..,"
+        value={user.username}
         onChange={(e) => {
-          setUser({ ...user, userName: e.target.value });
+          setUser({ ...user, username: e.target.value });
         }}
       />
 
